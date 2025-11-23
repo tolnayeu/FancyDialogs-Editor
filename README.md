@@ -9,18 +9,7 @@ A web-based visual editor for creating custom dialogs for the FancyDialogs Minec
 
 ### Online Editor
 
-Simply visit the [FancyDialogs Web Editor](https://tserato.github.io/FancyDialogs-Web-Editor/) and start creating!
-
-### Local Installation
-
-1. Clone this repository:
-```bash
-git clone https://github.com/TSERATO/FancyDialogs-Web-Editor.git
-```
-
-2. Open `index.html` in your web browser
-
-That's it! No build process or dependencies required.
+[FancyDialogs Web Editor](https://tserato.github.io/FancyDialogs-Web-Editor/)
 
 ## How to Use
 

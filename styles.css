@@ -114,11 +114,9 @@ body::before {
     border-radius: 20px;
     padding: 2rem;
     box-shadow: 0 20px 60px var(--shadow);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .mc-panel:hover {
-    transform: translateY(-2px);
     box-shadow: 0 22px 65px var(--shadow);
 }
 

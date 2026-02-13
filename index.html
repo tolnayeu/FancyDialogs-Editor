@@ -4,41 +4,83 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FancyDialogs Editor</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="minecraft-container">
-        <div class="mc-header">
-            <div class="mc-title">FancyDialogs Editor</div>
-            <div class="mc-subtitle">Create interactive dialogs for Minecraft 1.21.6+</div>
+    <!-- Material Design Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-wrapper">
+            <div class="spinner">
+                <div class="spinner-layer">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="preloader-text">Loading FancyDialogs Editor</div>
         </div>
+    </div>
 
-        <div class="main-grid">
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <span class="material-icons navbar-icon">edit_note</span>
+                <span class="navbar-title">FancyDialogs Editor</span>
+                <span class="mc-badge">BETA</span>
+            </div>
+            <div class="navbar-menu">
+                <button class="navbar-item active" onclick="showPage('editor')" aria-label="Switch to editor page" role="tab" aria-selected="true">
+                    <span class="material-icons" aria-hidden="true">settings</span>
+                    <span>Editor</span>
+                </button>
+                <button class="navbar-item" onclick="showPage('instructions')" aria-label="Switch to instructions page" role="tab" aria-selected="false">
+                    <span class="material-icons" aria-hidden="true">help</span>
+                    <span>Instructions</span>
+                </button>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+                    <span class="material-icons">light_mode</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="minecraft-container">
+        <!-- Editor Page -->
+        <div id="editor-page" class="page active">
+            <div class="main-grid">
             <!-- Editor Panel -->
             <div class="mc-panel">
-                <div class="mc-panel-title">⚙️ Dialog Editor</div>
+                <div class="mc-panel-title"><span class="material-icons">settings</span> Dialog Editor</div>
 
-                <div class="mc-tabs">
-                    <button class="mc-tab active" data-tab="basic">Basic</button>
-                    <button class="mc-tab" data-tab="body">Body</button>
-                    <button class="mc-tab" data-tab="inputs">Inputs</button>
-                    <button class="mc-tab" data-tab="buttons">Buttons</button>
+                <div class="mc-tabs" role="tablist" aria-label="Dialog configuration sections">
+                    <button class="mc-tab active" data-tab="basic" role="tab" aria-selected="true" aria-controls="basic-tab">Basic</button>
+                    <button class="mc-tab" data-tab="body" role="tab" aria-selected="false" aria-controls="body-tab">Body</button>
+                    <button class="mc-tab" data-tab="inputs" role="tab" aria-selected="false" aria-controls="inputs-tab">Inputs</button>
+                    <button class="mc-tab" data-tab="buttons" role="tab" aria-selected="false" aria-controls="buttons-tab">Buttons</button>
                 </div>
 
                 <!-- Basic Tab -->
                 <div class="tab-content active" id="basic-tab">
                     <div class="mc-info-box">
-                        💡 See <a href="https://github.com/TSERATO/FancyDialogs-Web-Editor/blob/main/README.md" target="_blank" class="info-link">README.md</a> for instructions
+                        <span class="material-icons">lightbulb</span> See <a href="#" onclick="showPage('instructions'); return false;" class="footer-link">instructions</a> for guidance
                     </div>
 
                     <label class="mc-label">Dialog ID:</label>
-                    <input type="text" class="mc-input" id="dialog-id" placeholder="my_dialog" value="my_dialog">
+                    <input type="text" class="mc-input" id="dialog-id" placeholder="my_dialog" value="my_dialog" data-tooltip="Unique identifier for this dialog. Use lowercase letters, numbers, and underscores." aria-label="Dialog ID">
 
                     <label class="mc-label">Title:</label>
-                    <input type="text" class="mc-input" id="dialog-title" placeholder="<b><color:#ff7300>Title</color></b>" value="<b><color:#ff7300>My Dialog</color></b>">
+                    <input type="text" class="mc-input" id="dialog-title" placeholder="<b><color:#ff7300>Title</color></b>" value="<b><color:#ff7300>My Dialog</color></b>" data-tooltip="Dialog title with MiniMessage formatting support" aria-label="Dialog title">
 
                     <div class="mc-checkbox-group">
-                        <input type="checkbox" class="mc-checkbox" id="can-close-escape" checked>
+                        <input type="checkbox" class="mc-checkbox" id="can-close-escape" checked aria-label="Allow closing dialog with ESC key">
                         <label class="mc-label" for="can-close-escape" style="margin: 0;">Close with ESC</label>
                     </div>
                 </div>
@@ -46,7 +88,7 @@
                 <!-- Body Tab -->
                 <div class="tab-content" id="body-tab">
                     <div class="mc-info-box">
-                        💬 Each line appears in dialog body
+                        <span class="material-icons">chat</span> Each line appears in dialog body
                     </div>
 
                     <div id="body-lines-container"></div>
@@ -81,7 +123,7 @@
                 <!-- Buttons Tab -->
                 <div class="tab-content" id="buttons-tab">
                     <div class="mc-info-box">
-                        🔘 Clickable buttons with actions
+                        <span class="material-icons">radio_button_checked</span> Clickable buttons with actions
                     </div>
 
                     <div id="buttons-container"></div>
@@ -90,21 +132,33 @@
                 </div>
 
                 <div class="button-row">
-                    <button class="mc-button mc-button-green" onclick="downloadJSON()" style="flex: 1;">💾 Download</button>
-                    <button class="mc-button mc-button-blue" onclick="loadExample()" style="flex: 1;">📂 Example</button>
-                    <button class="mc-button mc-button-gold" onclick="document.getElementById('file-input').click()" style="flex: 1;">📁 Import</button>
-                    <button class="mc-button mc-button-red" onclick="resetDialog()" style="flex: 1;">🗑️ Reset</button>
+                    <button class="mc-button" onclick="downloadJSON()" style="flex: 1;">
+                        <span class="material-icons">save</span>
+                        <span>Download</span>
+                    </button>
+                    <button class="mc-button" onclick="openPresetsModal()" style="flex: 1;">
+                        <span class="material-icons">view_module</span>
+                        <span>Presets</span>
+                    </button>
+                    <button class="mc-button" onclick="document.getElementById('file-input').click()" style="flex: 1;">
+                        <span class="material-icons">folder_open</span>
+                        <span>Import</span>
+                    </button>
+                    <button class="mc-button" onclick="resetDialog()" style="flex: 1;">
+                        <span class="material-icons">delete</span>
+                        <span>Reset</span>
+                    </button>
                     <input type="file" id="file-input" accept=".json" style="display: none;" onchange="importJSON(event)">
                 </div>
             </div>
 
             <!-- Preview Panel -->
             <div class="mc-panel">
-                <div class="mc-panel-title">👁️ Live Preview</div>
+                <div class="mc-panel-title"><span class="material-icons">visibility</span> Live Preview</div>
 
-                <div class="mc-tabs">
-                    <button class="mc-tab active" data-preview="visual">Visual</button>
-                    <button class="mc-tab" data-preview="code">Code</button>
+                <div class="mc-tabs" role="tablist" aria-label="Preview modes">
+                    <button class="mc-tab active" data-preview="visual" role="tab" aria-selected="true" aria-controls="visual-preview">Visual</button>
+                    <button class="mc-tab" data-preview="code" role="tab" aria-selected="false" aria-controls="code-preview">Code</button>
                 </div>
 
                 <div class="tab-content active" id="visual-preview">
@@ -122,7 +176,10 @@
 
                 <div class="tab-content" id="code-preview">
                     <div style="position: relative;">
-                        <button class="mc-button mc-button-blue copy-json-btn" onclick="copyJSON()" style="position: absolute; top: 0.5rem; right: 0.5rem; padding: 0.5rem 1rem; font-size: 0.75rem;">📋 Copy</button>
+                        <button class="mc-button copy-json-btn" onclick="copyJSON()" style="position: absolute; top: 0.5rem; right: 0.5rem; padding: 0.5rem 1rem; font-size: 0.75rem;">
+                            <span class="material-icons">content_copy</span>
+                            <span>Copy</span>
+                        </button>
                         <div class="code-preview" id="json-preview"></div>
                     </div>
                 </div>
@@ -132,21 +189,187 @@
         <div class="github-link">
             If you find any issues or have feature ideas, please report them on <a href="https://github.com/TSERATO/FancyDialogs-Web-Editor" target="_blank">GitHub</a>
         </div>
+        </div>
+
+        <!-- Instructions Page -->
+        <div id="instructions-page" class="page">
+            <div class="instructions-container">
+                <div class="instruction-section">
+                    <div class="section-header">
+                        <span class="material-icons">rocket_launch</span>
+                        <h2>Getting Started</h2>
+                    </div>
+                    <p>The FancyDialogs Editor helps you create interactive dialog interfaces for Minecraft 1.21.6+ without writing JSON manually.</p>
+                </div>
+
+                <div class="instruction-section">
+                    <div class="section-header">
+                        <span class="material-icons">list</span>
+                        <h2>Dialog Creation Workflow</h2>
+                    </div>
+                    <div class="workflow-steps">
+                        <div class="workflow-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Basic Information Setup</h3>
+                                <p>Enter a unique dialog ID, add formatted titles, and toggle ESC-to-close functionality.</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Body Text Addition</h3>
+                                <p>Add multiple text lines with MiniMessage formatting support.</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Input Configuration</h3>
+                                <p>Add text fields, dropdown menus, and checkboxes for user input.</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>Button Creation</h3>
+                                <p>Every dialog requires at least one button with customizable labels and actions.</p>
+                            </div>
+                        </div>
+                        <div class="workflow-step">
+                            <div class="step-number">5</div>
+                            <div class="step-content">
+                                <h3>Export</h3>
+                                <p>Download the completed dialog as a JSON file for your FancyDialogs plugin folder.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="instruction-section">
+                    <div class="section-header">
+                        <span class="material-icons">palette</span>
+                        <h2>Text Formatting</h2>
+                    </div>
+                    <p>The editor supports MiniMessage format for rich text styling:</p>
+                    <div class="example-box">
+                        <code>&lt;b&gt;Bold Text&lt;/b&gt;</code>
+                        <code>&lt;color:#ff7300&gt;Colored Text&lt;/color&gt;</code>
+                        <code>&lt;u&gt;Underlined&lt;/u&gt;</code>
+                    </div>
+                </div>
+
+                <div class="instruction-section">
+                    <div class="section-header">
+                        <span class="material-icons">input</span>
+                        <h2>Input Components</h2>
+                    </div>
+                    <div class="component-grid">
+                        <div class="component-card">
+                            <span class="material-icons component-icon">text_fields</span>
+                            <h3>Text Fields</h3>
+                            <p>Single or multi-line input fields with character limits and placeholders.</p>
+                        </div>
+                        <div class="component-card">
+                            <span class="material-icons component-icon">arrow_drop_down_circle</span>
+                            <h3>Dropdowns</h3>
+                            <p>Selection menus with custom options and default values.</p>
+                        </div>
+                        <div class="component-card">
+                            <span class="material-icons component-icon">check_box</span>
+                            <h3>Checkboxes</h3>
+                            <p>Boolean inputs with true/false values and initial states.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="instruction-section">
+                    <div class="section-header">
+                        <span class="material-icons">code</span>
+                        <h2>Placeholder Integration</h2>
+                    </div>
+                    <p>Use PlaceholderAPI and input placeholders in your dialogs:</p>
+                    <div class="example-box">
+                        <code>%player_name%</code> - Server placeholders
+                        <code>{player_name}</code> - Form input values
+                        <code>%vault_eco_balance%</code> - Plugin placeholders
+                    </div>
+                </div>
+
+                <div class="instruction-section">
+                    <div class="section-header">
+                        <span class="material-icons">touch_app</span>
+                        <h2>Button Actions</h2>
+                    </div>
+                    <div class="actions-grid">
+                        <div class="action-badge">
+                            <span class="material-icons">message</span>
+                            <span>Message</span>
+                        </div>
+                        <div class="action-badge">
+                            <span class="material-icons">open_in_new</span>
+                            <span>Open Dialog</span>
+                        </div>
+                        <div class="action-badge">
+                            <span class="material-icons">casino</span>
+                            <span>Random Dialog</span>
+                        </div>
+                        <div class="action-badge">
+                            <span class="material-icons">terminal</span>
+                            <span>Console Command</span>
+                        </div>
+                        <div class="action-badge">
+                            <span class="material-icons">person</span>
+                            <span>Player Command</span>
+                        </div>
+                        <div class="action-badge">
+                            <span class="material-icons">cloud_upload</span>
+                            <span>Transfer Server</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="instruction-section">
+                    <div class="section-header">
+                        <span class="material-icons">info</span>
+                        <h2>Tips & Best Practices</h2>
+                    </div>
+                    <div class="tips-list">
+                        <div class="tip-item">
+                            <span class="material-icons">check_circle</span>
+                            <p>Use descriptive dialog IDs to easily identify them</p>
+                        </div>
+                        <div class="tip-item">
+                            <span class="material-icons">check_circle</span>
+                            <p>Test your dialogs in-game before deploying to production</p>
+                        </div>
+                        <div class="tip-item">
+                            <span class="material-icons">check_circle</span>
+                            <p>Keep dialog text concise and easy to read</p>
+                        </div>
+                        <div class="tip-item">
+                            <span class="material-icons">check_circle</span>
+                            <p>Use the preset templates as starting points</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Action Modal -->
-    <div id="action-modal" class="mc-modal">
+    <div id="action-modal" class="mc-modal" role="dialog" aria-labelledby="action-modal-title" aria-modal="true">
         <div class="mc-modal-content">
-            <div class="mc-modal-header">Add Action</div>
+            <div class="mc-modal-header" id="action-modal-title">Add Action</div>
 
             <label class="mc-label">Action Type:</label>
             <select class="mc-select" id="action-type" onchange="updateActionFields()">
-                <option value="message">💬 Message</option>
-                <option value="open_dialog">📖 Open Dialog</option>
-                <option value="open_random_dialog">🎲 Random Dialog</option>
-                <option value="console_command">⌨ Console Command</option>
-                <option value="player_command">👤 Player Command</option>
-                <option value="send_to_server">🌐 Transfer Server</option>
+                <option value="message">Message</option>
+                <option value="open_dialog">Open Dialog</option>
+                <option value="open_random_dialog">Random Dialog</option>
+                <option value="console_command">Console Command</option>
+                <option value="player_command">Player Command</option>
+                <option value="send_to_server">Transfer Server</option>
             </select>
 
             <div id="action-fields"></div>
@@ -159,9 +382,9 @@
     </div>
 
     <!-- Select Option Modal -->
-    <div id="option-modal" class="mc-modal">
+    <div id="option-modal" class="mc-modal" role="dialog" aria-labelledby="option-modal-title" aria-modal="true">
         <div class="mc-modal-content">
-            <div class="mc-modal-header">Add Option</div>
+            <div class="mc-modal-header" id="option-modal-title">Add Option</div>
 
             <label class="mc-label">Value (placeholder):</label>
             <input type="text" class="mc-input" id="option-value" placeholder="red">
@@ -181,8 +404,79 @@
         </div>
     </div>
 
-    <script src="script.js">
+    <!-- Presets Modal -->
+    <div id="presets-modal" class="mc-modal" role="dialog" aria-labelledby="presets-modal-title" aria-modal="true">
+        <div class="mc-modal-content presets-modal-content">
+            <div class="mc-modal-header" id="presets-modal-title">Choose a Preset</div>
+
+            <div class="presets-grid">
+                <button class="preset-card" onclick="loadPresetAndClose('welcome')">
+                    <span class="material-icons preset-icon">waving_hand</span>
+                    <div class="preset-title">Welcome</div>
+                    <div class="preset-description">Server welcome dialog with greeting message</div>
+                </button>
+
+                <button class="preset-card" onclick="loadPresetAndClose('confirm')">
+                    <span class="material-icons preset-icon">check_circle</span>
+                    <div class="preset-title">Confirm</div>
+                    <div class="preset-description">Confirmation dialog for important actions</div>
+                </button>
+
+                <button class="preset-card" onclick="loadPresetAndClose('survey')">
+                    <span class="material-icons preset-icon">poll</span>
+                    <div class="preset-title">Survey</div>
+                    <div class="preset-description">Player feedback form with ratings</div>
+                </button>
+
+                <button class="preset-card" onclick="loadPresetAndClose('settings')">
+                    <span class="material-icons preset-icon">tune</span>
+                    <div class="preset-title">Settings</div>
+                    <div class="preset-description">Configuration dialog with preferences</div>
+                </button>
+
+                <button class="preset-card" onclick="loadPresetAndClose('warning')">
+                    <span class="material-icons preset-icon">warning</span>
+                    <div class="preset-title">Warning</div>
+                    <div class="preset-description">Critical warning dialog with alert</div>
+                </button>
+            </div>
+
+            <div class="mc-modal-footer">
+                <button class="mc-button mc-button-red" onclick="closePresetsModal()">
+                    <span class="material-icons">close</span>
+                    <span>Cancel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-credits">
+                    <a href="https://github.com/TSERATO" target="_blank" class="footer-link">Alex</a>,
+                    <a href="https://github.com/tolnayeu" target="_blank" class="footer-link">Barni</a>
+                    and contributors
+                </div>
+            </div>
+            <div class="footer-brand">
+                <span class="material-icons footer-icon">favorite</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
     <script>
+        // Hide preloader when page is loaded
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            preloader.style.opacity = '0';
+            setTimeout(function() {
+                preloader.style.display = 'none';
+            }, 300);
+        });
+
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/insights/script.js"></script>

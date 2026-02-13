@@ -982,8 +982,944 @@ function resetDialog() {
     loadDialogToForm();
 }
 
+function loadPreset(presetType) {
+    const presets = {
+        welcome: {
+            id: "welcome_dialog",
+            title: "<u><b><color:#ffd000>Welcome to the Server!</color></b></u>",
+            canCloseWithEscape: true,
+            body: [
+                {"text": "<color:#ffd199>Hello and welcome!</color>"},
+                {"text": ""},
+                {"text": "We're glad to have you here."},
+                {"text": "Please take a moment to read the rules."}
+            ],
+            inputs: { textFields: [], selects: [], checkboxes: [] },
+            buttons: [
+                {"label": "<color:#10b981>Continue</color>", "tooltip": "Proceed", "actions": []},
+                {"label": "<color:#94a3b8>Read Rules</color>", "tooltip": "View rules", "actions": [
+                    {"name": "open_dialog", "data": "rules_dialog"}
+                ]}
+            ]
+        },
+        confirm: {
+            id: "confirm_dialog",
+            title: "<b><color:#ea580c>Confirm Action</color></b>",
+            canCloseWithEscape: true,
+            body: [
+                {"text": "<color:#fbbf24>Are you sure?</color>"},
+                {"text": ""},
+                {"text": "This action cannot be undone."}
+            ],
+            inputs: { textFields: [], selects: [], checkboxes: [] },
+            buttons: [
+                {"label": "<color:#ef4444>Cancel</color>", "tooltip": "Cancel action", "actions": []},
+                {"label": "<color:#10b981>Confirm</color>", "tooltip": "Confirm action", "actions": [
+                    {"name": "console_command", "data": "say Action confirmed!"}
+                ]}
+            ]
+        },
+        survey: {
+            id: "survey_dialog",
+            title: "<b><color:#3b82f6>Player Survey</color></b>",
+            canCloseWithEscape: false,
+            body: [
+                {"text": "<color:#ffd199>Help us improve!</color>"},
+                {"text": ""},
+                {"text": "Please answer a few questions:"}
+            ],
+            inputs: {
+                textFields: [{
+                    placeholder: "Your feedback here...",
+                    maxLength: 200,
+                    maxLines: 3,
+                    key: "feedback",
+                    label: "<color:#fbbf24>What do you think?</color>",
+                    order: 1
+                }],
+                selects: [{
+                    options: [
+                        {"value": "5", "display": "<color:#10b981>⭐⭐⭐⭐⭐ Excellent</color>", "initial": true},
+                        {"value": "4", "display": "<color:#3b82f6>⭐⭐⭐⭐ Good</color>", "initial": false},
+                        {"value": "3", "display": "<color:#fbbf24>⭐⭐⭐ Average</color>", "initial": false},
+                        {"value": "2", "display": "<color:#ea580c>⭐⭐ Poor</color>", "initial": false},
+                        {"value": "1", "display": "<color:#ef4444>⭐ Bad</color>", "initial": false}
+                    ],
+                    key: "rating",
+                    label: "<color:#fbbf24>Rate your experience:</color>",
+                    order: 2
+                }],
+                checkboxes: [{
+                    initial: false,
+                    key: "recommend",
+                    label: "<color:#fbbf24>Would you recommend us?</color>",
+                    order: 3
+                }]
+            },
+            buttons: [
+                {"label": "<color:#10b981>Submit</color>", "tooltip": "Submit survey", "actions": [
+                    {"name": "message", "data": "Thank you for your feedback!"}
+                ]}
+            ]
+        },
+        settings: {
+            id: "settings_dialog",
+            title: "<b><color:#d97706>⚙️ Settings</color></b>",
+            canCloseWithEscape: true,
+            body: [
+                {"text": "<color:#ffd199>Configure your preferences</color>"}
+            ],
+            inputs: {
+                textFields: [],
+                selects: [{
+                    options: [
+                        {"value": "low", "display": "Low", "initial": false},
+                        {"value": "medium", "display": "Medium", "initial": true},
+                        {"value": "high", "display": "High", "initial": false}
+                    ],
+                    key: "quality",
+                    label: "<color:#fbbf24>Graphics Quality:</color>",
+                    order: 1
+                }],
+                checkboxes: [
+                    {
+                        initial: true,
+                        key: "sounds",
+                        label: "<color:#fbbf24>Enable Sounds</color>",
+                        order: 2
+                    },
+                    {
+                        initial: false,
+                        key: "notifications",
+                        label: "<color:#fbbf24>Show Notifications</color>",
+                        order: 3
+                    }
+                ]
+            },
+            buttons: [
+                {"label": "<color:#ef4444>Cancel</color>", "tooltip": "Discard changes", "actions": []},
+                {"label": "<color:#10b981>Save</color>", "tooltip": "Save settings", "actions": [
+                    {"name": "message", "data": "Settings saved!"}
+                ]}
+            ]
+        },
+        warning: {
+            id: "warning_dialog",
+            title: "<b><color:#ef4444>⚠️ Warning</color></b>",
+            canCloseWithEscape: false,
+            body: [
+                {"text": "<color:#ef4444><b>ATTENTION!</b></color>"},
+                {"text": ""},
+                {"text": "You are entering a dangerous area."},
+                {"text": "Proceed with caution!"}
+            ],
+            inputs: { textFields: [], selects: [], checkboxes: [] },
+            buttons: [
+                {"label": "<color:#94a3b8>Go Back</color>", "tooltip": "Return to safety", "actions": []},
+                {"label": "<color:#fbbf24>I Understand</color>", "tooltip": "Accept risk", "actions": [
+                    {"name": "message", "data": "Be careful!"}
+                ]}
+            ]
+        }
+    };
+
+    if (presets[presetType]) {
+        currentDialog = presets[presetType];
+        loadDialogToForm();
+    }
+}
+
 document.addEventListener('input', (e) => {
     if (e.target.id === 'dialog-id' || e.target.id === 'dialog-title' || e.target.id === 'can-close-escape') {
         updatePreview();
     }
 });
+
+function openPresetsModal() {
+    document.getElementById('presets-modal').classList.add('show');
+}
+
+function closePresetsModal() {
+    document.getElementById('presets-modal').classList.remove('show');
+}
+
+function loadPresetAndClose(presetType) {
+    loadPreset(presetType);
+    closePresetsModal();
+}
+
+function showPage(pageName) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+
+    // Show selected page
+    document.getElementById(pageName + '-page').classList.add('active');
+
+    // Update navbar
+    document.querySelectorAll('.navbar-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    event.target.closest('.navbar-item').classList.add('active');
+}
+
+// ===== NEW FEATURES =====
+
+// Utility Functions for Performance
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+function throttle(func, limit) {
+    let inThrottle;
+    return function(...args) {
+        if (!inThrottle) {
+            func.apply(this, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
+
+// Theme System
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    updateThemeButton(savedTheme);
+}
+
+function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const newTheme = current === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeButton(newTheme);
+    showToast(`Switched to ${newTheme} mode`, 'success', 2000);
+}
+
+function updateThemeButton(theme) {
+    const icon = document.querySelector('.theme-toggle .material-icons');
+    if (icon) {
+        icon.textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
+    }
+}
+
+// Toast Notifications
+function showToast(message, type = 'info', duration = 3000) {
+    const container = document.getElementById('toast-container') || createToastContainer();
+
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+
+    const icons = {
+        success: 'check_circle',
+        error: 'error',
+        warning: 'warning',
+        info: 'info'
+    };
+
+    toast.innerHTML = `
+        <span class="material-icons">${icons[type] || 'info'}</span>
+        <span class="toast-message">${message}</span>
+    `;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.classList.add('hiding');
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+
+function createToastContainer() {
+    const container = document.createElement('div');
+    container.id = 'toast-container';
+    container.className = 'toast-container';
+    document.body.appendChild(container);
+    return container;
+}
+
+// Drag and Drop File Import
+function setupDragDrop() {
+    const dropZones = [document.getElementById('editor-page'), document.body];
+
+    dropZones.forEach(zone => {
+        zone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            showDropIndicator();
+        });
+
+        zone.addEventListener('dragleave', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (e.target === zone) {
+                hideDropIndicator();
+            }
+        });
+
+        zone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            hideDropIndicator();
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                if (files[0].name.endsWith('.json')) {
+                    handleFileImport(files[0]);
+                } else {
+                    showToast('Please drop a valid JSON file', 'error');
+                }
+            }
+        });
+    });
+}
+
+function showDropIndicator() {
+    if (document.getElementById('drop-indicator')) return;
+
+    const indicator = document.createElement('div');
+    indicator.id = 'drop-indicator';
+    indicator.innerHTML = `
+        <div class="drop-overlay">
+            <span class="material-icons">cloud_upload</span>
+            <div>Drop JSON file to import</div>
+        </div>
+    `;
+    document.body.appendChild(indicator);
+}
+
+function hideDropIndicator() {
+    const indicator = document.getElementById('drop-indicator');
+    if (indicator) indicator.remove();
+}
+
+function handleFileImport(file) {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        try {
+            const data = JSON.parse(e.target.result);
+            const validation = validateImportedJSON(data);
+
+            if (!validation.valid) {
+                showToast(`Import failed: ${validation.error}`, 'error', 5000);
+                return;
+            }
+
+            currentDialog = validation.data;
+            loadDialogToForm();
+            showToast('Dialog imported successfully!', 'success');
+            trackChange();
+        } catch (error) {
+            showToast('Invalid JSON file', 'error');
+            console.error('Import error:', error);
+        }
+    };
+    reader.readAsText(file);
+}
+
+// Real-time Validation
+function validateDialog() {
+    const errors = [];
+    const warnings = [];
+
+    // ID validation
+    if (!currentDialog.id || !currentDialog.id.trim()) {
+        errors.push({ field: 'dialog-id', message: 'Dialog ID is required' });
+    } else if (!/^[a-z0-9_]+$/.test(currentDialog.id)) {
+        warnings.push({ field: 'dialog-id', message: 'ID should use lowercase letters, numbers, and underscores only' });
+    }
+
+    // Title validation
+    if (!currentDialog.title || !currentDialog.title.trim()) {
+        warnings.push({ field: 'dialog-title', message: 'Dialog title is empty' });
+    }
+
+    // Button validation
+    if (!currentDialog.buttons || currentDialog.buttons.length === 0) {
+        errors.push({ field: 'buttons', message: 'Dialog must have at least one button' });
+    }
+
+    // Input key validation
+    const keys = new Set();
+    const allInputs = [
+        ...currentDialog.inputs.textFields,
+        ...currentDialog.inputs.selects,
+        ...currentDialog.inputs.checkboxes
+    ];
+
+    allInputs.forEach(input => {
+        if (keys.has(input.key)) {
+            errors.push({ field: input.key, message: `Duplicate key "${input.key}"` });
+        }
+        keys.add(input.key);
+
+        if (!/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(input.key)) {
+            warnings.push({ field: input.key, message: `Key "${input.key}" should be a valid identifier` });
+        }
+    });
+
+    // Select options validation
+    currentDialog.inputs.selects.forEach((select, idx) => {
+        if (select.options.length === 0) {
+            warnings.push({ field: `select_${idx}`, message: 'Dropdown has no options' });
+        }
+
+        const hasInitial = select.options.some(opt => opt.initial);
+        if (!hasInitial && select.options.length > 0) {
+            warnings.push({ field: `select_${idx}`, message: 'No default option selected' });
+        }
+    });
+
+    return { errors, warnings, isValid: errors.length === 0 };
+}
+
+function validateImportedJSON(data) {
+    try {
+        const required = ['id', 'title', 'buttons'];
+        const missing = required.filter(field => !data[field]);
+
+        if (missing.length > 0) {
+            throw new Error(`Missing required fields: ${missing.join(', ')}`);
+        }
+
+        if (typeof data.id !== 'string') {
+            throw new Error('Dialog ID must be a string');
+        }
+
+        if (!Array.isArray(data.buttons) || data.buttons.length === 0) {
+            throw new Error('Dialog must have at least one button');
+        }
+
+        // Ensure inputs structure exists
+        if (!data.inputs) {
+            data.inputs = { textFields: [], selects: [], checkboxes: [] };
+        } else {
+            if (!data.inputs.textFields) data.inputs.textFields = [];
+            if (!data.inputs.selects) data.inputs.selects = [];
+            if (!data.inputs.checkboxes) data.inputs.checkboxes = [];
+        }
+
+        // Ensure body exists
+        if (!data.body) {
+            data.body = [];
+        }
+
+        return { valid: true, data };
+    } catch (error) {
+        return { valid: false, error: error.message };
+    }
+}
+
+// Undo/Redo System
+class DialogHistory {
+    constructor(maxSize = 50) {
+        this.history = [];
+        this.currentIndex = -1;
+        this.maxSize = maxSize;
+    }
+
+    push(state) {
+        // Remove any states after current index
+        this.history = this.history.slice(0, this.currentIndex + 1);
+
+        // Add new state
+        this.history.push(JSON.parse(JSON.stringify(state)));
+
+        // Limit history size
+        if (this.history.length > this.maxSize) {
+            this.history.shift();
+        } else {
+            this.currentIndex++;
+        }
+
+        this.updateUI();
+    }
+
+    undo() {
+        if (this.canUndo()) {
+            this.currentIndex--;
+            this.updateUI();
+            return JSON.parse(JSON.stringify(this.history[this.currentIndex]));
+        }
+        return null;
+    }
+
+    redo() {
+        if (this.canRedo()) {
+            this.currentIndex++;
+            this.updateUI();
+            return JSON.parse(JSON.stringify(this.history[this.currentIndex]));
+        }
+        return null;
+    }
+
+    canUndo() {
+        return this.currentIndex > 0;
+    }
+
+    canRedo() {
+        return this.currentIndex < this.history.length - 1;
+    }
+
+    updateUI() {
+        const undoBtn = document.getElementById('undo-btn');
+        const redoBtn = document.getElementById('redo-btn');
+
+        if (undoBtn) undoBtn.disabled = !this.canUndo();
+        if (redoBtn) redoBtn.disabled = !this.canRedo();
+    }
+}
+
+const dialogHistory = new DialogHistory();
+
+function trackChange() {
+    dialogHistory.push(currentDialog);
+}
+
+const debouncedTrack = debounce(trackChange, 500);
+
+function performUndo() {
+    const state = dialogHistory.undo();
+    if (state) {
+        currentDialog = state;
+        loadDialogToForm();
+        showToast('Undo successful', 'info', 1500);
+    }
+}
+
+function performRedo() {
+    const state = dialogHistory.redo();
+    if (state) {
+        currentDialog = state;
+        loadDialogToForm();
+        showToast('Redo successful', 'info', 1500);
+    }
+}
+
+// Auto-save Functionality
+let autoSaveInterval;
+
+function startAutoSave() {
+    autoSaveInterval = setInterval(() => {
+        saveToLocalStorage();
+    }, 30000); // Every 30 seconds
+}
+
+function saveToLocalStorage() {
+    try {
+        const dialogData = {
+            dialog: currentDialog,
+            timestamp: Date.now()
+        };
+        localStorage.setItem('fancydialogs_autosave', JSON.stringify(dialogData));
+        showAutoSaveIndicator(true);
+        setTimeout(() => showAutoSaveIndicator(false), 2000);
+    } catch (e) {
+        console.error('Auto-save failed:', e);
+    }
+}
+
+function loadFromLocalStorage() {
+    try {
+        const saved = localStorage.getItem('fancydialogs_autosave');
+        if (saved) {
+            const data = JSON.parse(saved);
+            const age = Date.now() - data.timestamp;
+
+            // If auto-save is less than 24 hours old
+            if (age < 86400000) {
+                return data.dialog;
+            }
+        }
+    } catch (e) {
+        console.error('Failed to load auto-save:', e);
+    }
+    return null;
+}
+
+function showAutoSaveIndicator(saving) {
+    let indicator = document.getElementById('autosave-indicator');
+    if (!indicator) {
+        indicator = document.createElement('div');
+        indicator.id = 'autosave-indicator';
+        indicator.className = 'autosave-indicator';
+        document.querySelector('.navbar-menu').appendChild(indicator);
+    }
+
+    if (saving) {
+        indicator.innerHTML = '<span class="material-icons">sync</span><span>Saving...</span>';
+        indicator.classList.remove('saved');
+    } else {
+        indicator.innerHTML = '<span class="material-icons">cloud_done</span><span>Saved</span>';
+        indicator.classList.add('saved');
+    }
+}
+
+// Keyboard Shortcuts
+function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+        const modifier = isMac ? e.metaKey : e.ctrlKey;
+
+        // Save: Ctrl/Cmd + S
+        if (modifier && e.key === 's') {
+            e.preventDefault();
+            downloadJSON();
+            showToast('Dialog saved!', 'success');
+        }
+
+        // Copy JSON: Ctrl/Cmd + K
+        if (modifier && e.key === 'k') {
+            e.preventDefault();
+            copyJSON();
+        }
+
+        // Open import: Ctrl/Cmd + O
+        if (modifier && e.key === 'o') {
+            e.preventDefault();
+            document.getElementById('file-input').click();
+        }
+
+        // Undo: Ctrl/Cmd + Z
+        if (modifier && e.key === 'z' && !e.shiftKey) {
+            e.preventDefault();
+            performUndo();
+        }
+
+        // Redo: Ctrl/Cmd + Shift + Z
+        if (modifier && e.shiftKey && e.key === 'z') {
+            e.preventDefault();
+            performRedo();
+        }
+
+        // Tab navigation: Ctrl/Cmd + 1-4
+        if (modifier && ['1', '2', '3', '4'].includes(e.key)) {
+            e.preventDefault();
+            const tabs = ['basic', 'body', 'inputs', 'buttons'];
+            switchTab(tabs[parseInt(e.key) - 1]);
+        }
+
+        // Help panel: Ctrl/Cmd + /
+        if (modifier && e.key === '/') {
+            e.preventDefault();
+            toggleHelpPanel();
+        }
+
+        // Escape to close modals
+        if (e.key === 'Escape') {
+            closeActionModal();
+            closeOptionModal();
+            closePresetsModal();
+        }
+    });
+}
+
+function switchTab(tabName) {
+    const tab = document.querySelector(`[data-tab="${tabName}"]`);
+    if (tab) {
+        tab.click();
+    }
+}
+
+// Help Panel
+function createHelpPanel() {
+    const panel = document.createElement('div');
+    panel.id = 'help-panel';
+    panel.className = 'help-panel collapsed';
+    panel.innerHTML = `
+        <button class="help-toggle" onclick="toggleHelpPanel()">
+            <span class="material-icons">help</span>
+        </button>
+
+        <div class="help-content">
+            <div class="help-header">
+                <h3>Quick Help</h3>
+                <button onclick="toggleHelpPanel()">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+
+            <div class="help-sections">
+                <div class="help-section">
+                    <h4>Keyboard Shortcuts</h4>
+                    <ul>
+                        <li><kbd>Ctrl</kbd> + <kbd>S</kbd> - Save dialog</li>
+                        <li><kbd>Ctrl</kbd> + <kbd>K</kbd> - Copy JSON</li>
+                        <li><kbd>Ctrl</kbd> + <kbd>O</kbd> - Import file</li>
+                        <li><kbd>Ctrl</kbd> + <kbd>Z</kbd> - Undo</li>
+                        <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd> - Redo</li>
+                        <li><kbd>Ctrl</kbd> + <kbd>1-4</kbd> - Switch tabs</li>
+                        <li><kbd>Ctrl</kbd> + <kbd>/</kbd> - Toggle help</li>
+                    </ul>
+                </div>
+
+                <div class="help-section">
+                    <h4>MiniMessage Examples</h4>
+                    <ul>
+                        <li><code>&lt;b&gt;Bold&lt;/b&gt;</code></li>
+                        <li><code>&lt;i&gt;Italic&lt;/i&gt;</code></li>
+                        <li><code>&lt;u&gt;Underline&lt;/u&gt;</code></li>
+                        <li><code>&lt;color:red&gt;Red&lt;/color&gt;</code></li>
+                        <li><code>&lt;color:#ff0000&gt;Hex&lt;/color&gt;</code></li>
+                        <li><code>&lt;gradient:red:blue&gt;Text&lt;/gradient&gt;</code></li>
+                    </ul>
+                </div>
+
+                <div class="help-section">
+                    <h4>Quick Tips</h4>
+                    <ul>
+                        <li>Use {key} to reference input values</li>
+                        <li>Use %placeholder% for PlaceholderAPI</li>
+                        <li>Dialogs need at least one button</li>
+                        <li>Drag and drop JSON files to import</li>
+                        <li>Changes are auto-saved every 30s</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(panel);
+}
+
+function toggleHelpPanel() {
+    const panel = document.getElementById('help-panel');
+    if (panel) {
+        panel.classList.toggle('collapsed');
+    }
+}
+
+// Tooltip System
+let currentTooltipTarget = null;
+
+function initTooltips() {
+    // Use mouseover/mouseout instead of mouseenter/mouseleave for better event bubbling
+    document.addEventListener('mouseover', (e) => {
+        const target = e.target.closest('[data-tooltip]');
+        if (target && target !== currentTooltipTarget) {
+            currentTooltipTarget = target;
+            showTooltip(target, target.getAttribute('data-tooltip'));
+        }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+        const target = e.target.closest('[data-tooltip]');
+        if (target && target === currentTooltipTarget) {
+            // Check if we're actually leaving the element
+            const relatedTarget = e.relatedTarget;
+            if (!relatedTarget || !target.contains(relatedTarget)) {
+                hideTooltip();
+                currentTooltipTarget = null;
+            }
+        }
+    });
+
+    // Also hide tooltip on scroll or when clicking anywhere
+    document.addEventListener('scroll', hideTooltip, true);
+    document.addEventListener('click', hideTooltip);
+}
+
+function showTooltip(element, text) {
+    hideTooltip(); // Remove any existing tooltip
+
+    const tooltip = document.createElement('div');
+    tooltip.className = 'tooltip';
+    tooltip.id = 'active-tooltip';
+    tooltip.textContent = text;
+
+    document.body.appendChild(tooltip);
+
+    // Position tooltip below the element
+    const rect = element.getBoundingClientRect();
+    const tooltipHeight = tooltip.offsetHeight;
+    const tooltipWidth = tooltip.offsetWidth;
+
+    // Calculate position (below the element, centered)
+    let top = rect.bottom + 8;
+    let left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
+
+    // Ensure tooltip stays within viewport
+    const padding = 10;
+    if (left < padding) {
+        left = padding;
+    } else if (left + tooltipWidth > window.innerWidth - padding) {
+        left = window.innerWidth - tooltipWidth - padding;
+    }
+
+    // If tooltip would go below viewport, position it above the element instead
+    if (top + tooltipHeight > window.innerHeight - padding) {
+        top = rect.top - tooltipHeight - 8;
+        tooltip.classList.add('tooltip-top');
+    }
+
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
+
+    requestAnimationFrame(() => {
+        tooltip.classList.add('visible');
+    });
+}
+
+function hideTooltip() {
+    const tooltip = document.getElementById('active-tooltip');
+    if (tooltip) {
+        tooltip.classList.remove('visible');
+        setTimeout(() => {
+            if (tooltip.parentNode) {
+                tooltip.remove();
+            }
+        }, 200);
+    }
+}
+
+// Preview Controls
+function addPreviewControls() {
+    const previewPanel = document.querySelector('.mc-panel:has(#preview-container)');
+    if (!previewPanel) return;
+
+    const controls = document.createElement('div');
+    controls.className = 'preview-controls';
+    controls.innerHTML = `
+        <div class="preview-scale-controls">
+            <label class="mc-label">Preview Scale:</label>
+            <div class="button-group">
+                <button class="mc-button" onclick="setPreviewScale(0.75)">75%</button>
+                <button class="mc-button active" onclick="setPreviewScale(1)">100%</button>
+                <button class="mc-button" onclick="setPreviewScale(1.25)">125%</button>
+                <button class="mc-button" onclick="setPreviewScale(1.5)">150%</button>
+            </div>
+        </div>
+
+        <div class="preview-device-controls">
+            <label class="mc-label">Device Preview:</label>
+            <div class="button-group">
+                <button class="mc-button active" onclick="setDevicePreview('desktop')" aria-label="Desktop view">
+                    <span class="material-icons">computer</span>
+                </button>
+                <button class="mc-button" onclick="setDevicePreview('tablet')" aria-label="Tablet view">
+                    <span class="material-icons">tablet</span>
+                </button>
+                <button class="mc-button" onclick="setDevicePreview('mobile')" aria-label="Mobile view">
+                    <span class="material-icons">phone_android</span>
+                </button>
+            </div>
+        </div>
+    `;
+
+    const tabs = previewPanel.querySelector('.mc-tabs');
+    if (tabs) {
+        previewPanel.insertBefore(controls, tabs);
+    }
+}
+
+function setPreviewScale(scale) {
+    const preview = document.querySelector('.preview-dialog');
+    if (preview) {
+        preview.style.transform = `scale(${scale})`;
+        preview.style.transformOrigin = 'top center';
+    }
+
+    // Update active button
+    document.querySelectorAll('.preview-scale-controls .mc-button').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.textContent.includes(scale * 100)) {
+            btn.classList.add('active');
+        }
+    });
+}
+
+function setDevicePreview(device) {
+    const previewWrapper = document.querySelector('.preview-wrapper');
+    if (!previewWrapper) return;
+
+    // Remove existing device classes
+    previewWrapper.classList.remove('device-desktop', 'device-tablet', 'device-mobile');
+
+    // Add new device class
+    previewWrapper.classList.add(`device-${device}`);
+
+    // Update active button
+    document.querySelectorAll('.preview-device-controls .mc-button').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.closest('.mc-button').classList.add('active');
+}
+
+// History Controls
+function addHistoryControls() {
+    const buttonRow = document.querySelector('.button-row');
+    if (!buttonRow) return;
+
+    const historyControls = document.createElement('div');
+    historyControls.className = 'history-controls';
+    historyControls.innerHTML = `
+        <button id="undo-btn" class="mc-button" onclick="performUndo()" title="Undo (Ctrl+Z)" disabled>
+            <span class="material-icons">undo</span>
+        </button>
+        <button id="redo-btn" class="mc-button" onclick="performRedo()" title="Redo (Ctrl+Shift+Z)" disabled>
+            <span class="material-icons">redo</span>
+        </button>
+    `;
+
+    buttonRow.insertBefore(historyControls, buttonRow.firstChild);
+}
+
+// Initialize All Features
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize theme
+    initTheme();
+
+    // Setup keyboard shortcuts
+    setupKeyboardShortcuts();
+
+    // Setup drag and drop
+    setupDragDrop();
+
+    // Setup tooltips
+    initTooltips();
+
+    // Create help panel
+    createHelpPanel();
+
+    // Add preview controls
+    setTimeout(() => {
+        addPreviewControls();
+        addHistoryControls();
+    }, 100);
+
+    // Start auto-save
+    startAutoSave();
+
+    // Check for auto-saved data
+    const autoSaved = loadFromLocalStorage();
+    if (autoSaved) {
+        if (confirm('We found an auto-saved dialog. Would you like to restore it?')) {
+            currentDialog = autoSaved;
+            loadDialogToForm();
+            showToast('Auto-save restored!', 'success');
+        }
+    }
+
+    // Track initial state
+    setTimeout(() => trackChange(), 500);
+
+    // Track changes on update
+    const originalUpdatePreview = updatePreview;
+    updatePreview = function() {
+        originalUpdatePreview();
+        debouncedTrack();
+    };
+});
+
+// Enhanced updatePreview with debouncing
+const debouncedUpdatePreview = debounce(updatePreview, 300);

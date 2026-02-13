@@ -11,6 +11,18 @@ A web-based visual editor for creating custom dialogs for the FancyDialogs Minec
 
 [FancyDialogs Web Editor](https://tserato.github.io/FancyDialogs-Web-Editor/)
 
+## Features
+
+- Visual dialog editor with live preview
+- Dark and light theme modes
+- Drag and drop JSON import
+- Auto-save with recovery
+- Undo/redo (50 state history)
+- Keyboard shortcuts
+- Preview scaling and device modes
+- Input validation
+- Help panel with tips and shortcuts
+
 ## How to Use
 
 ### Basic Dialog Creation
@@ -36,8 +48,25 @@ A web-based visual editor for creating custom dialogs for the FancyDialogs Minec
    - Set tooltips for hover effects
 
 5. **Export**
-   - Click "💾 DOWNLOAD" to save your dialog as JSON
+   - Click "DOWNLOAD" to save your dialog as JSON
    - Place the file in your FancyDialogs plugin folder
+
+### Keyboard Shortcuts
+
+- `Ctrl+S` - Save dialog
+- `Ctrl+K` - Copy JSON to clipboard
+- `Ctrl+O` - Import file
+- `Ctrl+Z` - Undo
+- `Ctrl+Shift+Z` - Redo
+- `Ctrl+1-4` - Switch between tabs
+- `Ctrl+/` - Toggle help panel
+- `Escape` - Close modals
+
+### File Management
+
+- Drag and drop JSON files to import
+- Auto-save runs every 30 seconds
+- Recovery prompt on page reload if auto-save exists
 
 ## MiniMessage Formatting
 
@@ -112,28 +141,28 @@ Every dialog must have at least one button. Buttons can have:
 
 #### Available Actions
 
-1. **💬 Message**
+1. **Message**
    - Send a message to the player
    - Supports PlaceholderAPI and input placeholders
    - Example: `Hello {player_name}! Color: {color_choice}`
 
-2. **📖 Open Dialog**
+2. **Open Dialog**
    - Open another dialog by ID
    - Example: `rules_dialog`
 
-3. **🎲 Random Dialog**
+3. **Random Dialog**
    - Open a random dialog from a list
    - Example: `quest1,quest2,quest3`
 
-4. **⌨ Console Command**
+4. **Console Command**
    - Execute command as console
    - Example: `give {player_name} diamond 1`
 
-5. **👤 Player Command**
+5. **Player Command**
    - Execute command as player (without `/`)
    - Example: `spawn`
 
-6. **🌐 Transfer Server**
+6. **Transfer Server**
    - Transfer player to another server (BungeeCord/Velocity)
    - Example: `lobby`
 
@@ -245,4 +274,4 @@ MIT License - Feel free to use, modify, and distribute!
 
 ---
 
-**Happy Dialog Creating! 🎮✨**
+Made for the FancyDialogs plugin by Alex and Barni

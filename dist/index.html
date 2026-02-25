@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
   <!-- Vite entry point — handles all CSS + M3 component imports -->
-  <script type="module" crossorigin src="./assets/index-C7yGsT4H.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-CoQVQEm5.css">
+  <script type="module" crossorigin src="./assets/index-DG1nRRt4.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BHM6OEtM.css">
 </head>
 <body>
 
@@ -31,8 +31,7 @@
   <!-- ═══════════════════════════════ Navigation Rail ════════════════════════════ -->
   <nav class="nav-rail" role="navigation" aria-label="Main navigation">
     <div class="nav-rail-header">
-      <span class="material-symbols-outlined brand-icon" aria-hidden="true">edit_note</span>
-      <span class="nav-rail-title">FancyDialogs</span>
+      <img src="./favicon.ico" class="nav-rail-favicon" alt="FancyDialogs Editor">
       <span class="m3-badge">BETA</span>
     </div>
 
@@ -534,17 +533,34 @@
 
   <!-- ═══════════════════════════════ Footer ═══════════════════════════════════ -->
   <footer class="footer" role="contentinfo">
-    <div class="footer-container">
-      <div class="footer-content">
-        <div class="footer-credits">
-          <a href="https://github.com/TSERATO" target="_blank" rel="noopener" class="footer-link">Alex</a>,&nbsp;
+    <div class="footer-wave" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 20" preserveAspectRatio="none">
+        <path d="M0,10 C120,20 240,0 360,10 C480,20 600,0 720,10 C840,20 960,0 1080,10 C1200,20 1320,0 1440,10" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      </svg>
+    </div>
+
+    <div class="footer-main">
+      <div class="footer-brand-col">
+        <img src="./favicon.ico" class="footer-favicon" alt="FancyDialogs Editor">
+        <p class="footer-desc">A visual editor for the FancyDialogs Minecraft plugin. Create, preview, and export dialog configurations without writing JSON.</p>
+      </div>
+
+      <div class="footer-links">
+        <div class="footer-col">
+          <span class="footer-col-heading">Resources</span>
+          <a href="https://github.com/TSERATO/FancyDialogs-Web-Editor" target="_blank" rel="noopener" class="footer-link">GitHub</a>
+          <a href="https://github.com/TSERATO/FancyDialogs-Web-Editor/issues" target="_blank" rel="noopener" class="footer-link">Report a Bug</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-heading">Contributors</span>
+          <a href="https://github.com/TSERATO" target="_blank" rel="noopener" class="footer-link">Alex</a>
           <a href="https://github.com/tolnayeu" target="_blank" rel="noopener" class="footer-link">Barni</a>
-          &nbsp;and contributors
         </div>
       </div>
-      <div class="footer-brand">
-        <span class="material-symbols-outlined footer-icon" aria-hidden="true">favorite</span>
-      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2025 FancyDialogs Editor — made with ♥ by Alex, Barni &amp; contributors.</span>
     </div>
   </footer>
 

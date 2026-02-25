@@ -1,5 +1,6 @@
 // ── M3 Web Component registrations ──────────────────────────────────────────
 import '@material/web/button/filled-button.js';
+import '@material/web/button/filled-tonal-button.js';
 import '@material/web/button/outlined-button.js';
 import '@material/web/button/text-button.js';
 import '@material/web/iconbutton/icon-button.js';
@@ -331,22 +332,22 @@ function addPreviewControls() {
     <div class="preview-scale-controls">
       <label class="mc-label">Preview Scale:</label>
       <div class="button-group">
-        <button class="mc-button" data-scale="0.75">75%</button>
-        <button class="mc-button active" data-scale="1">100%</button>
-        <button class="mc-button" data-scale="1.25">125%</button>
-        <button class="mc-button" data-scale="1.5">150%</button>
+        <button class="tonal-btn" data-scale="0.75">75%</button>
+        <button class="tonal-btn active" data-scale="1">100%</button>
+        <button class="tonal-btn" data-scale="1.25">125%</button>
+        <button class="tonal-btn" data-scale="1.5">150%</button>
       </div>
     </div>
     <div class="preview-device-controls">
       <label class="mc-label">Device Preview:</label>
       <div class="button-group">
-        <button class="mc-button active" data-device="desktop" aria-label="Desktop view">
+        <button class="tonal-btn active" data-device="desktop" aria-label="Desktop view">
           <span class="material-symbols-outlined">computer</span>
         </button>
-        <button class="mc-button" data-device="tablet" aria-label="Tablet view">
+        <button class="tonal-btn" data-device="tablet" aria-label="Tablet view">
           <span class="material-symbols-outlined">tablet</span>
         </button>
-        <button class="mc-button" data-device="mobile" aria-label="Mobile view">
+        <button class="tonal-btn" data-device="mobile" aria-label="Mobile view">
           <span class="material-symbols-outlined">phone_android</span>
         </button>
       </div>

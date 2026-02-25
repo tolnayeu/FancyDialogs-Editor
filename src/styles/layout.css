@@ -958,7 +958,7 @@ md-tabs {
   height: 40px;
   padding: 0 12px;
   border: none;
-  border-radius: var(--md-sys-shape-corner-full);
+  border-radius: 10px;
   background: transparent;
   color: var(--md-sys-color-primary);
   font-family: var(--md-ref-typeface-brand);
@@ -966,11 +966,21 @@ md-tabs {
   font-weight: 600;
   letter-spacing: 0.00625em;
   cursor: pointer;
-  transition: background var(--transition-fast) ease;
+  overflow: hidden;
+  transition:
+    border-radius 360ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    background    150ms ease;
   white-space: nowrap;
 }
-.btn-text:hover  { background: color-mix(in srgb, var(--md-sys-color-primary) 8%,  transparent); }
-.btn-text:active { background: color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent); }
+.btn-text:hover  {
+  border-radius: 9999px;
+  background: color-mix(in srgb, var(--md-sys-color-primary) 8%, transparent);
+}
+.btn-text:active {
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--md-sys-color-primary) 12%, transparent);
+  transition-duration: 100ms;
+}
 
 .btn-tonal {
   display: inline-flex;
@@ -979,7 +989,7 @@ md-tabs {
   height: 40px;
   padding: 0 24px;
   border: none;
-  border-radius: var(--md-sys-shape-corner-full);
+  border-radius: 10px;
   background: var(--md-sys-color-secondary-container);
   color: var(--md-sys-color-on-secondary-container);
   font-family: var(--md-ref-typeface-brand);
@@ -987,16 +997,23 @@ md-tabs {
   font-weight: 600;
   letter-spacing: 0.00625em;
   cursor: pointer;
-  transition: background var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
+  overflow: hidden;
+  transition:
+    border-radius 360ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    background    150ms ease,
+    box-shadow    150ms ease;
   white-space: nowrap;
 }
 .btn-tonal:hover  {
+  border-radius: 9999px;
   background: color-mix(in srgb, var(--md-sys-color-on-secondary-container) 8%,  var(--md-sys-color-secondary-container));
   box-shadow: var(--elevation-1);
 }
 .btn-tonal:active {
+  border-radius: 14px;
   background: color-mix(in srgb, var(--md-sys-color-on-secondary-container) 12%, var(--md-sys-color-secondary-container));
   box-shadow: none;
+  transition-duration: 100ms;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════

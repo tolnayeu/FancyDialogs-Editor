@@ -185,16 +185,17 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('action-type')?.addEventListener('change', updateActionFields);
   document.getElementById('cancel-action-btn')?.addEventListener('click', closeActionModal);
   document.getElementById('confirm-action-btn')?.addEventListener('click', confirmAction);
-  document.getElementById('action-modal')?.addEventListener('cancel', closeActionModal);
+  // Escape key fires 'cancel' which instantly closes; preventDefault + animate instead
+  document.getElementById('action-modal')?.addEventListener('cancel', (e) => { e.preventDefault(); closeActionModal(); });
 
   // 12. Option modal (legacy)
   document.getElementById('cancel-option-btn')?.addEventListener('click', closeOptionModal);
   document.getElementById('confirm-option-btn')?.addEventListener('click', () => {}); // no-op
-  document.getElementById('option-modal')?.addEventListener('cancel', closeOptionModal);
+  document.getElementById('option-modal')?.addEventListener('cancel', (e) => { e.preventDefault(); closeOptionModal(); });
 
   // 13. Presets modal
   document.getElementById('cancel-presets-btn')?.addEventListener('click', closePresetsModal);
-  document.getElementById('presets-modal')?.addEventListener('cancel', closePresetsModal);
+  document.getElementById('presets-modal')?.addEventListener('cancel', (e) => { e.preventDefault(); closePresetsModal(); });
   document.querySelectorAll('.preset-card').forEach((card) => {
     card.addEventListener('click', () => loadPresetAndClose(card.dataset.preset));
   });

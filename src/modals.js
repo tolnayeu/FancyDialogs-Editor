@@ -1,8 +1,19 @@
-// Modal management — uses md-dialog .show() / .close() API
+// Modal management — native <dialog> with animated open/close
 
 import { currentDialog, editorState, renderButtons, loadDialogToForm } from './dialog.js';
 import { updatePreview } from './preview.js';
 import { loadPreset } from './presets.js';
+
+// ── Animated close helper ─────────────────────────────────────────────────────
+function closeAnimated(modal, onClosed) {
+  if (!modal || !modal.open || modal.classList.contains('closing')) return;
+  modal.classList.add('closing');
+  modal.addEventListener('animationend', () => {
+    modal.classList.remove('closing');
+    modal.close();
+    if (onClosed) onClosed();
+  }, { once: true });
+}
 
 // ── Action Modal ─────────────────────────────────────────────────────────────
 
@@ -16,8 +27,7 @@ export function openActionModal(buttonIndex) {
 
 export function closeActionModal() {
   const modal = document.getElementById('action-modal');
-  if (modal) modal.close();
-  editorState.currentButtonIndex = -1;
+  closeAnimated(modal, () => { editorState.currentButtonIndex = -1; });
 }
 
 export function confirmAction() {
@@ -113,8 +123,7 @@ export function openOptionModal(selectIndex) {
 
 export function closeOptionModal() {
   const modal = document.getElementById('option-modal');
-  if (modal) modal.close();
-  editorState.currentSelectIndex = -1;
+  closeAnimated(modal, () => { editorState.currentSelectIndex = -1; });
 }
 
 export function confirmOption() {
@@ -130,7 +139,7 @@ export function openPresetsModal() {
 
 export function closePresetsModal() {
   const modal = document.getElementById('presets-modal');
-  if (modal) modal.close();
+  closeAnimated(modal);
 }
 
 export function loadPresetAndClose(presetType) {

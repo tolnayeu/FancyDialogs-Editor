@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
 
   <!-- Vite entry point — handles all CSS + M3 component imports -->
-  <script type="module" crossorigin src="./assets/index-CIAtIJFe.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-8V3I9AFx.css">
+  <script type="module" crossorigin src="./assets/index-C7yGsT4H.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-CoQVQEm5.css">
 </head>
 <body>
 
@@ -28,30 +28,38 @@
     </div>
   </div>
 
-  <!-- ═══════════════════════════════ Top App Bar ══════════════════════════════ -->
-  <nav class="top-app-bar" role="navigation">
-    <div class="top-app-bar-container">
-      <div class="app-bar-brand">
-        <span class="material-symbols-outlined brand-icon" aria-hidden="true">edit_note</span>
-        <span class="app-bar-title">FancyDialogs Editor</span>
-        <span class="m3-badge">BETA</span>
-      </div>
+  <!-- ═══════════════════════════════ Navigation Rail ════════════════════════════ -->
+  <nav class="nav-rail" role="navigation" aria-label="Main navigation">
+    <div class="nav-rail-header">
+      <span class="material-symbols-outlined brand-icon" aria-hidden="true">edit_note</span>
+      <span class="nav-rail-title">FancyDialogs</span>
+      <span class="m3-badge">BETA</span>
+    </div>
 
-      <div class="app-bar-actions">
-        <button class="nav-btn active" id="nav-editor" role="tab" aria-selected="true">
+    <div class="nav-rail-items">
+      <button class="nav-rail-item active" id="nav-editor" role="tab" aria-selected="true">
+        <span class="nav-rail-icon">
           <span class="material-symbols-outlined" aria-hidden="true">settings</span>
-          <span>Editor</span>
-        </button>
-        <button class="nav-btn" id="nav-instructions" role="tab" aria-selected="false">
+        </span>
+        <span class="nav-rail-label">Editor</span>
+      </button>
+      <button class="nav-rail-item" id="nav-instructions" role="tab" aria-selected="false">
+        <span class="nav-rail-icon">
           <span class="material-symbols-outlined" aria-hidden="true">help</span>
-          <span>Instructions</span>
-        </button>
-        <md-icon-button id="theme-toggle" aria-label="Toggle theme">
-          <span class="material-symbols-outlined">light_mode</span>
-        </md-icon-button>
-      </div>
+        </span>
+        <span class="nav-rail-label">Instructions</span>
+      </button>
+    </div>
+
+    <div class="nav-rail-footer">
+      <md-icon-button id="theme-toggle" aria-label="Toggle theme">
+        <span class="material-symbols-outlined">light_mode</span>
+      </md-icon-button>
     </div>
   </nav>
+
+  <!-- ═══════════════════════════════ App Content ═══════════════════════════════ -->
+  <div class="app-content">
 
   <!-- ═══════════════════════════════ Main Container ═══════════════════════════ -->
   <div class="minecraft-container">
@@ -175,10 +183,10 @@
               </md-icon-button>
             </div>
 
-            <md-filled-button id="download-btn">
+            <md-outlined-button id="download-btn">
               <span class="material-symbols-outlined" slot="icon">save</span>
               Download
-            </md-filled-button>
+            </md-outlined-button>
 
             <md-outlined-button id="presets-btn">
               <span class="material-symbols-outlined" slot="icon">view_module</span>
@@ -232,10 +240,9 @@
           <!-- Code preview panel -->
           <div id="code-preview-panel" class="tab-panel hidden">
             <div class="copy-btn-wrapper">
-              <md-outlined-button id="copy-json-btn" class="copy-json-btn-m3" aria-label="Copy JSON">
-                <span class="material-symbols-outlined" slot="icon">content_copy</span>
-                Copy
-              </md-outlined-button>
+              <md-icon-button id="copy-json-btn" aria-label="Copy JSON to clipboard" title="Copy JSON">
+                <span class="material-symbols-outlined">content_copy</span>
+              </md-icon-button>
               <div class="code-preview" id="json-preview" role="textbox" aria-readonly="true" aria-label="JSON output"></div>
             </div>
           </div>
@@ -540,6 +547,8 @@
       </div>
     </div>
   </footer>
+
+  </div><!-- /app-content -->
 
   <!-- Vercel Analytics -->
   <script>

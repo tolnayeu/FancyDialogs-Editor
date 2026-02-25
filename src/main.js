@@ -80,9 +80,6 @@ import {
   copyJSON,
   importJSON,
   handleFileImport,
-  startAutoSave,
-  loadFromLocalStorage,
-  saveToLocalStorage,
   setupDragDrop,
 } from './storage.js';
 
@@ -236,29 +233,10 @@ document.addEventListener('DOMContentLoaded', () => {
     addHistoryControls();
   }, 100);
 
-  // 21. Auto-save
-  startAutoSave();
-
-  // 22. Restore auto-saved dialog
-  const autoSaved = loadFromLocalStorage();
-  if (autoSaved) {
-    if (confirm('We found an auto-saved dialog. Would you like to restore it?')) {
-      loadDialogToForm(autoSaved);
-      showToast('Auto-save restored!', 'success');
-    }
-  }
-
-  // 23. Track initial state
+  // 21. Track initial state
   setTimeout(() => dialogHistory.push(currentDialog), 600);
 
-  // 24. Warn before leaving if there's unsaved work
-  window.addEventListener('beforeunload', (e) => {
-    e.preventDefault();
-    e.returnValue = '';
-    return '';
-  });
-
-  // 25. Hide preloader
+  // 22. Hide preloader
   const preloader = document.getElementById('preloader');
   if (preloader) {
     preloader.style.opacity = '0';

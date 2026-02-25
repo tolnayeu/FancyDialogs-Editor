@@ -81,7 +81,7 @@ export function renderBodyLines() {
       <div class="mc-item-header">
         <span class="mc-item-title">Line ${index + 1}</span>
         <div class="mc-item-actions">
-          <button class="mc-button mc-button-red" onclick="window.__deleteBodyLine(${index})">DEL</button>
+          <button class="icon-btn icon-btn-danger" onclick="window.__deleteBodyLine(${index})" aria-label="Delete line"><span class="material-symbols-outlined">delete</span></button>
         </div>
       </div>
       <textarea class="mc-textarea"
@@ -135,7 +135,7 @@ export function renderTextFields() {
       <div class="mc-item-header">
         <span class="mc-item-title">Text Field ${index + 1}</span>
         <div class="mc-item-actions">
-          <button class="mc-button mc-button-red" onclick="window.__deleteTextField(${index})">DEL</button>
+          <button class="icon-btn icon-btn-danger" onclick="window.__deleteTextField(${index})" aria-label="Delete field"><span class="material-symbols-outlined">delete</span></button>
         </div>
       </div>
       <div style="margin-top: 8px;">
@@ -205,7 +205,7 @@ export function renderSelects() {
         <span class="mc-item-title">Dropdown ${index + 1}</span>
         <div class="mc-item-actions">
           <button class="mc-button mc-button-green" onclick="window.__addSelectOption(${index})">+OPT</button>
-          <button class="mc-button mc-button-red" onclick="window.__deleteSelect(${index})">DEL</button>
+          <button class="icon-btn icon-btn-danger" onclick="window.__deleteSelect(${index})" aria-label="Delete dropdown"><span class="material-symbols-outlined">delete</span></button>
         </div>
       </div>
       <div style="margin-top: 8px;">
@@ -224,8 +224,7 @@ export function renderSelects() {
           <div class="mc-item" style="padding: 8px; margin-bottom: 6px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
               <span style="font-size: 12px; color: #FFFF55;">Option ${optIndex + 1}</span>
-              <button class="mc-button mc-button-red" onclick="window.__deleteSelectOption(${index}, ${optIndex})"
-                style="padding: 6px 12px; font-size: 11px;">DEL</button>
+              <button class="icon-btn icon-btn-danger" onclick="window.__deleteSelectOption(${index}, ${optIndex})" aria-label="Delete option"><span class="material-symbols-outlined">delete</span></button>
             </div>
             <label class="mc-label" style="font-size: 11px;">Value:</label>
             <input type="text" class="mc-input" value="${escapeHtml(opt.value)}"
@@ -319,7 +318,7 @@ export function renderCheckboxes() {
       <div class="mc-item-header">
         <span class="mc-item-title">Checkbox ${index + 1}</span>
         <div class="mc-item-actions">
-          <button class="mc-button mc-button-red" onclick="window.__deleteCheckbox(${index})">DEL</button>
+          <button class="icon-btn icon-btn-danger" onclick="window.__deleteCheckbox(${index})" aria-label="Delete checkbox"><span class="material-symbols-outlined">delete</span></button>
         </div>
       </div>
       <div style="margin-top: 8px;">
@@ -387,7 +386,7 @@ export function renderButtons() {
         </span>
         <div class="mc-item-actions">
           <button class="mc-button mc-button-green" onclick="window.__addButtonAction(${index})">+ACT</button>
-          ${!isLastButton ? `<button class="mc-button mc-button-red" onclick="window.__deleteButton(${index})">DEL</button>` : ''}
+          ${!isLastButton ? `<button class="icon-btn icon-btn-danger" onclick="window.__deleteButton(${index})" aria-label="Delete button"><span class="material-symbols-outlined">delete</span></button>` : ''}
         </div>
       </div>
       <div style="margin-top: 8px;">
@@ -410,7 +409,7 @@ export function renderButtons() {
               <div class="action-item">
                 <span class="action-type">${action.name}</span>
                 <span class="action-data">${escapeHtml(action.data.substring(0, 30))}${action.data.length > 30 ? '…' : ''}</span>
-                <button class="mc-button mc-button-red" onclick="window.__deleteButtonAction(${index}, ${aIndex})">×</button>
+                <button class="icon-btn icon-btn-danger" onclick="window.__deleteButtonAction(${index}, ${aIndex})" aria-label="Remove action"><span class="material-symbols-outlined">delete</span></button>
               </div>
             `
               )

@@ -36,11 +36,10 @@ export function copyJSON() {
     .writeText(json)
     .then(() => {
       showToast('JSON copied to clipboard!', 'success');
-      const btn = document.getElementById('copy-json-btn');
-      if (btn) {
-        const orig = btn.textContent;
-        btn.textContent = 'check';
-        setTimeout(() => (btn.textContent = orig), 2000);
+      const icon = document.querySelector('#copy-json-btn .material-symbols-outlined');
+      if (icon) {
+        icon.textContent = 'check';
+        setTimeout(() => (icon.textContent = 'content_copy'), 2000);
       }
     })
     .catch(() => showToast('Failed to copy to clipboard', 'error'));

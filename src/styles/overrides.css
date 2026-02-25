@@ -120,10 +120,13 @@ md-tabs {
 
 /* ─── Dialog ────────────────────────────────────────────────────────────────── */
 md-dialog {
-  /* Restore margin: auto centering — overridden by * { margin: 0 } global reset.
-     md-dialog shadow DOM uses :host { position: fixed; margin: auto } for centering;
-     the outer * reset zeroes this, so the dialog snaps to top-left. */
-  margin: auto;
+  /* !important forces margin: auto past the * { margin: 0 } reset.
+     The shadow DOM <dialog> uses margin: inherit — without auto it snaps top-left. */
+  margin: auto !important;
+  /* Size: shadow CSS hardcodes min-width/height, so set them on the host.
+     <dialog> inside uses min-width: inherit / min-height: inherit. */
+  min-width:  520px;
+  min-height: 480px;
   --md-dialog-container-color:          var(--md-sys-color-surface-container-high);
   --md-dialog-headline-color:           var(--md-sys-color-on-surface);
   --md-dialog-headline-font:            var(--md-ref-typeface-brand);
@@ -131,12 +134,11 @@ md-dialog {
   --md-dialog-headline-size:            1.25rem;
   --md-dialog-supporting-text-color:    var(--md-sys-color-on-surface-variant);
   --md-dialog-container-shape:          var(--md-sys-shape-corner-extra-large);
-  --md-dialog-container-min-inline-size: 520px;
-  --md-dialog-container-min-block-size:  480px;
 }
 #presets-modal {
-  --md-dialog-container-max-inline-size: min(900px, 95vw);
-  --md-dialog-container-min-block-size:  auto;
+  min-width:  min(900px, 95vw);
+  min-height: auto;
+  max-width:  min(900px, 95vw);
 }
 
 /* ─── Checkbox ──────────────────────────────────────────────────────────────── */

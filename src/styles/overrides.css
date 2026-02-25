@@ -1,35 +1,77 @@
 /* === @material/web Component Custom Property Overrides === */
-/* Amber (#f5b731) M3 theme applied to all M3 web components */
+/* FancySpaces palette + M3 Expressive treatment */
 
-/* --- Filled Button --- */
-md-filled-button {
-  --md-filled-button-container-color: var(--md-sys-color-primary);
-  --md-filled-button-label-text-color: var(--md-sys-color-on-primary);
-  --md-filled-button-hover-container-elevation: 2;
-  --md-filled-button-container-shape: var(--md-sys-shape-corner-small);
-  --md-filled-button-label-text-font: 'Inter', sans-serif;
-  --md-filled-button-label-text-weight: 600;
+/* ─── M3 Expressive spring motion ─────────────────────────────────────────── */
+md-filled-tonal-button,
+md-filled-button,
+md-outlined-button {
+  transition: transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  will-change: transform;
 }
 
-/* --- Outlined Button --- */
+md-filled-tonal-button:hover,
+md-filled-button:hover,
+md-outlined-button:hover {
+  transform: scale(1.04);
+}
+
+md-filled-tonal-button:active,
+md-filled-button:active,
+md-outlined-button:active {
+  transform: scale(0.95);
+  transition-duration: 120ms;
+}
+
+/* ─── Filled Tonal Button — Expressive ────────────────────────────────────── */
+md-filled-tonal-button {
+  --md-filled-tonal-button-container-shape: var(--md-sys-shape-corner-full);
+  --md-filled-tonal-button-container-height: 48px;
+  --md-filled-tonal-button-label-text-font: 'Inter', sans-serif;
+  --md-filled-tonal-button-label-text-weight: 700;
+  --md-filled-tonal-button-label-text-size: 0.875rem;
+  --md-filled-tonal-button-icon-size: 1.25rem;
+  --md-filled-tonal-button-container-color: var(--md-sys-color-secondary-container);
+  --md-filled-tonal-button-label-text-color: var(--md-sys-color-on-secondary-container);
+  --md-filled-tonal-button-icon-color: var(--md-sys-color-on-secondary-container);
+  --md-filled-tonal-button-hover-state-layer-color: var(--md-sys-color-on-secondary-container);
+}
+
+/* ─── Filled Button — Expressive ──────────────────────────────────────────── */
+md-filled-button {
+  --md-filled-button-container-shape: var(--md-sys-shape-corner-full);
+  --md-filled-button-container-height: 48px;
+  --md-filled-button-label-text-font: 'Inter', sans-serif;
+  --md-filled-button-label-text-weight: 700;
+  --md-filled-button-label-text-size: 0.875rem;
+  --md-filled-button-icon-size: 1.25rem;
+  --md-filled-button-container-color: var(--md-sys-color-primary);
+  --md-filled-button-label-text-color: var(--md-sys-color-on-primary);
+  --md-filled-button-icon-color: var(--md-sys-color-on-primary);
+}
+
+/* ─── Outlined Button — Expressive ───────────────────────────────────────── */
 md-outlined-button {
+  --md-outlined-button-container-shape: var(--md-sys-shape-corner-full);
+  --md-outlined-button-container-height: 48px;
+  --md-outlined-button-label-text-font: 'Inter', sans-serif;
+  --md-outlined-button-label-text-weight: 700;
+  --md-outlined-button-label-text-size: 0.875rem;
   --md-outlined-button-outline-color: var(--md-sys-color-outline);
   --md-outlined-button-label-text-color: var(--md-sys-color-primary);
   --md-outlined-button-hover-outline-color: var(--md-sys-color-primary);
-  --md-outlined-button-container-shape: var(--md-sys-shape-corner-small);
-  --md-outlined-button-label-text-font: 'Inter', sans-serif;
-  --md-outlined-button-label-text-weight: 600;
+  --md-outlined-button-icon-size: 1.25rem;
 }
 
-/* --- Text Button --- */
+/* ─── Text Button ─────────────────────────────────────────────────────────── */
 md-text-button {
   --md-text-button-label-text-color: var(--md-sys-color-primary);
   --md-text-button-hover-label-text-color: var(--md-sys-color-primary);
   --md-text-button-label-text-font: 'Inter', sans-serif;
   --md-text-button-label-text-weight: 600;
+  --md-text-button-container-shape: var(--md-sys-shape-corner-full);
 }
 
-/* --- Icon Button --- */
+/* ─── Icon Button ─────────────────────────────────────────────────────────── */
 md-icon-button {
   --md-icon-button-icon-color: var(--md-sys-color-on-surface-variant);
   --md-icon-button-hover-icon-color: var(--md-sys-color-on-surface);
@@ -37,7 +79,7 @@ md-icon-button {
   --md-icon-button-icon-size: 1.375rem;
 }
 
-/* --- Outlined Text Field --- */
+/* ─── Outlined Text Field ─────────────────────────────────────────────────── */
 md-outlined-text-field {
   --md-outlined-text-field-outline-color: var(--md-sys-color-outline);
   --md-outlined-text-field-focus-outline-color: var(--md-sys-color-primary);
@@ -45,13 +87,13 @@ md-outlined-text-field {
   --md-outlined-text-field-focus-label-text-color: var(--md-sys-color-primary);
   --md-outlined-text-field-input-text-color: var(--md-sys-color-on-surface);
   --md-outlined-text-field-caret-color: var(--md-sys-color-primary);
-  --md-outlined-text-field-container-shape: var(--md-sys-shape-corner-extra-small);
+  --md-outlined-text-field-container-shape: var(--md-sys-shape-corner-small);
   width: 100%;
   margin-bottom: 0.75rem;
   display: block;
 }
 
-/* --- Outlined Select --- */
+/* ─── Outlined Select ─────────────────────────────────────────────────────── */
 md-outlined-select {
   --md-outlined-select-text-field-outline-color: var(--md-sys-color-outline);
   --md-outlined-select-text-field-focus-outline-color: var(--md-sys-color-primary);
@@ -59,7 +101,7 @@ md-outlined-select {
   --md-outlined-select-text-field-focus-label-text-color: var(--md-sys-color-primary);
   --md-outlined-select-text-field-input-text-color: var(--md-sys-color-on-surface);
   --md-outlined-select-text-field-caret-color: var(--md-sys-color-primary);
-  --md-outlined-select-text-field-container-shape: var(--md-sys-shape-corner-extra-small);
+  --md-outlined-select-text-field-container-shape: var(--md-sys-shape-corner-small);
   width: 100%;
   margin-bottom: 0.75rem;
   display: block;
@@ -69,7 +111,7 @@ md-select-option {
   --md-menu-item-label-text-color: var(--md-sys-color-on-surface);
 }
 
-/* --- Tabs --- */
+/* ─── Tabs ────────────────────────────────────────────────────────────────── */
 md-tabs {
   --md-primary-tab-active-indicator-color: var(--md-sys-color-primary);
   --md-primary-tab-active-label-text-color: var(--md-sys-color-primary);
@@ -87,20 +129,24 @@ md-tabs {
   --md-secondary-tab-container-shape: 0px;
 }
 
-/* --- Dialog --- */
+/* ─── Dialog — M3 base with Expressive shape ──────────────────────────────── */
 md-dialog {
   --md-dialog-container-color: var(--md-sys-color-surface-container-high);
-  --md-dialog-headline-color: var(--md-sys-color-primary);
+  --md-dialog-headline-color: var(--md-sys-color-on-surface);
+  --md-dialog-headline-font: 'Inter', sans-serif;
+  --md-dialog-headline-weight: 700;
+  --md-dialog-headline-size: 1.375rem;
   --md-dialog-supporting-text-color: var(--md-sys-color-on-surface-variant);
-  --md-dialog-container-shape: var(--md-sys-shape-corner-large);
+  --md-dialog-container-shape: var(--md-sys-shape-corner-extra-large);
+  --md-dialog-container-min-inline-size: 320px;
 }
 
-/* Presets modal dialog needs more width */
+/* Presets modal needs more width */
 #presets-modal {
   --md-dialog-container-max-inline-size: min(900px, 95vw);
 }
 
-/* --- Checkbox --- */
+/* ─── Checkbox ────────────────────────────────────────────────────────────── */
 md-checkbox {
   --md-checkbox-selected-container-color: var(--md-sys-color-primary);
   --md-checkbox-selected-focus-container-color: var(--md-sys-color-primary);
@@ -110,7 +156,7 @@ md-checkbox {
   --md-checkbox-outline-color: var(--md-sys-color-outline);
 }
 
-/* Light theme overrides */
+/* ─── Light theme overrides ───────────────────────────────────────────────── */
 :root[data-theme="light"] md-outlined-text-field {
   --md-outlined-text-field-outline-color: var(--md-sys-color-outline);
 }

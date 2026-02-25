@@ -9,8 +9,8 @@ md-filled-button {
   --md-filled-button-label-text-color:   var(--md-sys-color-on-primary);
   --md-filled-button-icon-color:         var(--md-sys-color-on-primary);
   --md-filled-button-container-height:   44px;
-  --md-filled-button-leading-space:      32px;
-  --md-filled-button-trailing-space:     32px;
+  --md-filled-button-leading-space:      40px;
+  --md-filled-button-trailing-space:     40px;
   --md-filled-button-label-text-font:    var(--md-ref-typeface-brand);
   --md-filled-button-label-text-weight:  700;
   --md-filled-button-label-text-size:    0.875rem;
@@ -25,8 +25,8 @@ md-filled-tonal-button {
   --md-filled-tonal-button-icon-color:         var(--md-sys-color-on-secondary-container);
   --md-filled-tonal-button-hover-state-layer-color: var(--md-sys-color-on-secondary-container);
   --md-filled-tonal-button-container-height:   44px;
-  --md-filled-tonal-button-leading-space:      32px;
-  --md-filled-tonal-button-trailing-space:     32px;
+  --md-filled-tonal-button-leading-space:      40px;
+  --md-filled-tonal-button-trailing-space:     40px;
   --md-filled-tonal-button-label-text-font:    var(--md-ref-typeface-brand);
   --md-filled-tonal-button-label-text-weight:  700;
   --md-filled-tonal-button-label-text-size:    0.875rem;
@@ -40,8 +40,8 @@ md-outlined-button {
   --md-outlined-button-label-text-color:    var(--md-sys-color-primary);
   --md-outlined-button-hover-outline-color: var(--md-sys-color-primary);
   --md-outlined-button-container-height:    44px;
-  --md-outlined-button-leading-space:       32px;
-  --md-outlined-button-trailing-space:      32px;
+  --md-outlined-button-leading-space:       40px;
+  --md-outlined-button-trailing-space:      40px;
   --md-outlined-button-label-text-font:     var(--md-ref-typeface-brand);
   --md-outlined-button-label-text-weight:   700;
   --md-outlined-button-label-text-size:     0.875rem;
@@ -131,10 +131,12 @@ md-dialog {
   --md-dialog-headline-size:            1.25rem;
   --md-dialog-supporting-text-color:    var(--md-sys-color-on-surface-variant);
   --md-dialog-container-shape:          var(--md-sys-shape-corner-extra-large);
-  --md-dialog-container-min-inline-size: 320px;
+  --md-dialog-container-min-inline-size: 520px;
+  --md-dialog-container-min-block-size:  480px;
 }
 #presets-modal {
   --md-dialog-container-max-inline-size: min(900px, 95vw);
+  --md-dialog-container-min-block-size:  auto;
 }
 
 /* ─── Checkbox ──────────────────────────────────────────────────────────────── */

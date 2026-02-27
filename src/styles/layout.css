@@ -1472,8 +1472,7 @@ md-tabs {
   border: 1px solid var(--md-sys-color-outline-variant);
 }
 
-.preview-scale-controls,
-.preview-device-controls {
+.preview-scale-controls {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

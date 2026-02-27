@@ -340,20 +340,6 @@ function addPreviewControls() {
         <button class="tonal-btn" data-scale="1.5">150%</button>
       </div>
     </div>
-    <div class="preview-device-controls">
-      <label class="mc-label">Device Preview:</label>
-      <div class="button-group">
-        <button class="tonal-btn active" data-device="desktop" aria-label="Desktop view">
-          <span class="material-symbols-outlined">computer</span>
-        </button>
-        <button class="tonal-btn" data-device="tablet" aria-label="Tablet view">
-          <span class="material-symbols-outlined">tablet</span>
-        </button>
-        <button class="tonal-btn" data-device="mobile" aria-label="Mobile view">
-          <span class="material-symbols-outlined">phone_android</span>
-        </button>
-      </div>
-    </div>
   `;
 
   // Insert before the md-tabs in the preview panel
@@ -374,18 +360,6 @@ function addPreviewControls() {
     });
   });
 
-  // Device buttons
-  controls.querySelectorAll('[data-device]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const wrapper = document.querySelector('.preview-wrapper');
-      if (wrapper) {
-        wrapper.classList.remove('device-desktop', 'device-tablet', 'device-mobile');
-        wrapper.classList.add(`device-${btn.dataset.device}`);
-      }
-      controls.querySelectorAll('[data-device]').forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
-    });
-  });
 }
 
 // ── History controls ──────────────────────────────────────────────────────────

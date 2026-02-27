@@ -205,10 +205,6 @@
   text-align: initial;
 }
 
-/* Device preview variants */
-.preview-wrapper.device-tablet .preview-dialog { max-width: 600px; }
-.preview-wrapper.device-mobile .preview-dialog { max-width: 350px; }
-
 /* Preview text input (interactive within Minecraft preview) */
 .preview-text-input {
   background: transparent;
